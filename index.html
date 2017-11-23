@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Ajax实例——联系方式表单</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+	<!--<script type="text/javascript" src="js/script.js"></script>-->
+</head>
+<body>
+	<h2 id="contact-title">CONTACT FORM</h2>
+
+	<form id="contact-form" name="contact-form" action="php/contact.php" method="post">
+		<div class="form-field">
+			<label for="name">Your name: </label>
+			<input type="text" name="name" id="name" placeholder="">
+			<span class="error"></span>
+		</div>
+		<div class="form-field">
+			<label for="email">Your Email: </label>
+			<input type="text" name="email" id="email" placeholder="">
+			<span class="error"></span>
+		</div>
+		<div class="form-field">
+			<label>Your Telephone: </label>
+			<input type="tel" name="phone" id="phone" placeholder="">
+			<span class="error"></span>
+		</div>
+		<div class="form-field">
+			<label for="message">Message: </label>
+			<textarea name="message" id="message" placeholder=""></textarea>
+			<span class="error"></span>
+		</div>
+		<div class="button-group">
+			<input type="submit" name="submit" value="Submit">
+			<input type="reset" name="reset" value="Reset">
+		</div>
+	</form>
+
+	<!-- 对话框 -->
+	<div class="dialog-box">
+		<h2 class="title"></h2>
+		<p class="message"></p>
+		<button type="button">OK</button>
+	</div>
+
+<script>
+    var $contactForm = $('#contact-form');
+    var $dialogBox = $('.dialog-box');
+
+    $contactForm.find('input, textarea').blur(function() {
+        var $this = $(this);
+
+        $.ajax('php/contact.php', {
+            method: 'POST',
+            dataType: 'json',
+            data: $this.serialize() + '&partial=true',
+            success: function(data) {
+                if (data.status === 'error') {
+                    $this.next('.error').text(data.info[0].message);
+                }
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    }).focus(function() {
+        $(this).next('.error').text('');
+    });
+
+    $contactForm.find('input[type="submit"], input[type="reset"]').click(function(){
+        $(this).closest('form').find('.error').text('');
+    });
+
+    $contactForm.submit(function(event) {
+        event.preventDefault();
+
+        $.post('php/contact.php',
+            $(this).serialize(),
+            function(data) {
+                if (data.status === 'error') {
+                    $.each(data.info, function(index, elem) {
+                        $('#' + elem.field).next('.error').text(elem.message);
+                    });
+                }
+                $dialogBox.children('.title').text(data.status);
+                $dialogBox.children('.message').text(data.message);
+                $dialogBox.finish().show('fast');
+            },
+            'json'
+        );
+    });
+    $dialogBox.children('button').click(function () {
+        $(this).parent().slideUp();
+    });
+</script>
+</body>
+</html>
