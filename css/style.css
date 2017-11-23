@@ -1,0 +1,80 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#contact-title {
+	margin: 20px auto;
+	width: 300px;
+	text-align: center;
+}
+
+#contact-form {
+	width: 500px;
+	margin: 20px auto;
+	border: 1px solid #000;
+}
+
+.form-field, #contact-form .button-group {
+	margin: 15px 60px 15px 70px;
+}
+
+.form-field label {
+	display: block;
+	font-size: 18px;
+	margin: 0 0 10px 0;
+}
+
+.form-field input {
+	width: 95%;
+	height: 30px;
+}
+
+.form-field textarea {
+	width: 95%;
+	height: 100px;
+}
+
+#contact-form .button-group input {
+	width: 85px;
+	height: 45px;
+	font-size: 18px;
+	margin: 10px 45px;
+}
+
+.dialog-box{
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 150px;
+	width: 300px;
+	margin-top: -75px;
+	margin-left: -150px;
+	border-radius: 5px;
+	background-color: #999;
+}
+
+.dialog-box h2 {
+	margin-top: 5px;
+	margin-left: 5px;
+	border-bottom: 1px solid #000;
+}
+
+.dialog-box .message {
+	margin-top: 10px;
+	margin-left: 5px;
+	font-size: 16px;
+}
+
+.dialog-box button {
+	width: 60px;
+	height: 30px;
+	margin-top: 5px;
+}
+
+.error{
+	display: block;
+	color: #FF1C26;
+	font-size: 14px;
+}
